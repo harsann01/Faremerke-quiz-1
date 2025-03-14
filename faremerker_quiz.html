@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faremerker Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+        }
+        .quiz-container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        img {
+            width: 100px;
+            height: 100px;
+        }
+        button {
+            padding: 10px;
+            margin: 10px;
+            border: none;
+            background-color: #007BFF;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Faremerker Quiz</h1>
+        <div id="quiz"></div>
+        <button onclick="nextQuestion()">Neste</button>
+        <h2 id="result"></h2>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                image: "https://upload.wikimedia.org/wikipedia/commons/6/67/GHS-pictogram-flamme.svg",
+                question: "Hvilket faremerke er dette?",
+                options: ["Brannfarlig", "Giftig", "Etsende"],
+                answer: "Brannfarlig"
+            },
+            {
+                image: "https://upload.wikimedia.org/wikipedia/commons/e/e9/GHS-pictogram-skalle.svg",
+                question: "Hvilket faremerke er dette?",
+                options: ["Brannfarlig", "Giftig", "Miljøfarlig"],
+                answer: "Giftig"
+            },
+            {
+                image: "https://upload.wikimedia.org/wikipedia/commons/f/fc/GHS-pictogram-korrosiv.svg",
+                question: "Hvilket faremerke er dette?",
+                options: ["Brannfarlig", "Etsende", "Eksplosiv"],
+                answer: "Etsende"
+            },
+            {
+                image: "https://upload.wikimedia.org/wikipedia/commons/3/3b/GHS-pictogram-explosiv.svg",
+                question: "Hvilket faremerke er dette?",
+                options: ["Eksplosiv", "Giftig", "Miljøfarlig"],
+                answer: "Eksplosiv"
+            }
+        ];
+        
+        let currentQuestion = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const quizDiv = document.getElementById("quiz");
+            quizDiv.innerHTML = `
+                <p>${questions[currentQuestion].question}</p>
+                <img src="${questions[currentQuestion].image}" alt="Faremerke">
+                <br>
+                ${questions[currentQuestion].options.map(option => `<button onclick="checkAnswer('${option}')">${option}</button>`).join(" ")}
+            `;
+        }
+
+        function checkAnswer(answer) {
+            if (answer === questions[currentQuestion].answer) {
+                score++;
+            }
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            if (currentQuestion < questions.length) {
+                loadQuestion();
+            } else {
+                document.getElementById("quiz").innerHTML = "Quiz ferdig!";
+                document.getElementById("result").innerText = `Du fikk ${score} av ${questions.length} riktige!`;
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
